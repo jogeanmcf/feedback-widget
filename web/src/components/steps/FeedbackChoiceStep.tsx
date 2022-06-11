@@ -1,4 +1,4 @@
-import { FeedbackType, feedbackTypes } from "./WidgetForm";
+import { FeedbackType, feedbackTypes } from "../WidgetForm";
 
 interface FeedbackChoiceStepProps { 
     onFeedbackChoosen: (type: FeedbackType) => void,

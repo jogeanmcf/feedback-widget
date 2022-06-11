@@ -4,8 +4,9 @@ import bugImage from '../assets/bug.svg'
 import ideaImage from '../assets/idea.svg'
 import thoughtImage from '../assets/thought.svg'
 import { CloseButton } from "./CloseButton";
-import { FeedbackChoiceStep } from "./FeedbackChoiceStep";
-import { FeedbackContentStep } from "./FeedbackContentStep";
+import { FeedbackChoiceStep } from "./steps/FeedbackChoiceStep";
+import { FeedbackContentStep } from "./steps/FeedbackContentStep";
+import { FeedbackSuccessStep } from "./steps/FeedbackSuccessStep";
 
 export const feedbackTypes = {
 
@@ -35,6 +36,9 @@ export type FeedbackType = keyof typeof feedbackTypes;
 
 export function WidgetForm(){
     const [feedbackChoice, setFeedbackChoice] = useState<FeedbackType | null>(null);
+    const [isFeedbackSent, onFeedbackSent] = useState<boolean>(false)
+
+
     
     return(
 
@@ -42,7 +46,16 @@ export function WidgetForm(){
             <CloseButton/>
             {!feedbackChoice 
                 ? <FeedbackChoiceStep onFeedbackChoosen={setFeedbackChoice}/>
-                : <FeedbackContentStep feedbackChoice={feedbackChoice}/> 
+                :<> {!isFeedbackSent 
+                        ? <FeedbackContentStep 
+                            feedbackChoice={feedbackChoice} 
+                            resetFeedbackChoice={() => setFeedbackChoice(null)}
+                            onFeedbackSent={()=> onFeedbackSent(true)}
+                            />
+                        : <FeedbackSuccessStep/>
+                 
+                } 
+                </>
             }
             <footer>
                 Feito com ♥ pela <a className="underline underline-offset-4">Rocketseat</a>
