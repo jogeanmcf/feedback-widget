@@ -2,6 +2,10 @@ import { Popover } from "@headlessui/react";
 import { ChatTeardropDots } from "phosphor-react"
 import { WidgetForm } from "./WidgetForm";
 
+//TODO: deixar tudo com mesma altura e largura -> para medium screen and full screen
+//TODO: enviar pro servidor
+//TODO: mostrar o loading enqanto estiver enviando
+
 export function Widget(){
     
     return(

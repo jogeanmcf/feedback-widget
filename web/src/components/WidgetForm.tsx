@@ -8,6 +8,7 @@ import { FeedbackChoiceStep } from "./steps/FeedbackChoiceStep";
 import { FeedbackContentStep } from "./steps/FeedbackContentStep";
 import { FeedbackSuccessStep } from "./steps/FeedbackSuccessStep";
 
+
 export const feedbackTypes = {
 
     BUG: {
@@ -36,7 +37,7 @@ export type FeedbackType = keyof typeof feedbackTypes;
 
 export function WidgetForm(){
     const [feedbackChoice, setFeedbackChoice] = useState<FeedbackType | null>(null);
-    const [isFeedbackSent, onFeedbackSent] = useState<boolean>(false)
+    const [isFeedbackSent, onFeedbackSent] = useState<boolean>(false);
 
 
     
@@ -51,6 +52,7 @@ export function WidgetForm(){
                             feedbackChoice={feedbackChoice} 
                             resetFeedbackChoice={() => setFeedbackChoice(null)}
                             onFeedbackSent={()=> onFeedbackSent(true)}
+                            
                             />
                         : <FeedbackSuccessStep/>
                  
