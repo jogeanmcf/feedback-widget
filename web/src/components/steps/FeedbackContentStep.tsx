@@ -2,6 +2,9 @@ import { ArrowLeft } from "phosphor-react";
 import { ScreenShotButton } from "../screenshotButton";
 import { feedbackTypes, FeedbackType } from "../WidgetForm";
 import { FormEvent, useState } from 'react'
+import { Spinner } from "../Spinner";
+import axios from "axios";
+
 
 interface FeedbackContentStepProps {
     onFeedbackSent: ()=> void;
@@ -11,10 +14,23 @@ interface FeedbackContentStepProps {
 export function FeedbackContentStep({ feedbackChoice, resetFeedbackChoice, onFeedbackSent}: FeedbackContentStepProps) {
 
     const [screenshot, setScreenshot] = useState<string |null>(null);
+    const [isSendingFeedback, setIsSendingFeedback] = useState<boolean>(false);
+    const [comment, setComment] = useState<string>("")
 
-    function handleSubmitFeedback(event: FormEvent){
+    async function handleSubmitFeedback(event: FormEvent){
         event.preventDefault();
-        console.log("foi submetido")
+
+        setIsSendingFeedback(true)
+
+        axios.post('http://localhost:8080/post/feedback',{
+            type: feedbackChoice,
+            comment,
+            screenshot
+        }).then(()=> {
+            setIsSendingFeedback(false)
+            onFeedbackSent()
+        }).catch((e) => console.log(e))
+        
     }
 
     return (
@@ -27,18 +43,24 @@ export function FeedbackContentStep({ feedbackChoice, resetFeedbackChoice, onFee
                 </span>
             </header>
             
-            <form className="flex flex-1 flex-col gap-2 w-full" onSubmit={handleSubmitFeedback}>
-                <textarea 
+            <form className="flex flex-1 flex-col gap-2 w-[304px]" onSubmit={handleSubmitFeedback}>
+                <textarea
+                    onChange={(e)=> setComment(e.target.value)} 
                     placeholder="Digite aqui seu comentário."
                     className="bg-transparent  min-w-[304] w-full min-h-[112px] rounded-md focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 scrollbar-track-transparent scrollbar-thin scrollbar-thumb-slate-500"
                 />
                 <footer className="flex justify-center gap-2">
-                    <ScreenShotButton screenshot={screenshot} onScrenshotTook={setScreenshot}/>
+                    <ScreenShotButton
+                        //TODO: desabilitar o botão de screenshot enquanto estiver enviando 
+                        screenshot={screenshot} 
+                        onScrenshotTook={setScreenshot}
+                    />
                     <button
                     type="submit"
-                    onClick={onFeedbackSent}
-                    className="rounded-md p-2 w-full  bg-green-600 border-transparent focus:outline-none ring-2 focus:ring-green-600 focus:ring-offset-slate-600 focus:ring-offset-2">
-                        Enviar feedback
+                    onClick={handleSubmitFeedback}
+                    disabled={isSendingFeedback}
+                    className="rounded-md p-2 w-full flex items-center justify-center bg-green-600 border-transparent focus:outline-none ring-2 focus:ring-green-600 focus:ring-offset-slate-600 focus:ring-offset-2 disabled:opacity-60">
+                        {isSendingFeedback ? <Spinner/> : <span>Enviar feedback</span>}
                     </button>
                 </footer>  
             </form>

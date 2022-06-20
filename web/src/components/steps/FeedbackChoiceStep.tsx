@@ -14,6 +14,7 @@ export function FeedbackChoiceStep({onFeedbackChoosen}: FeedbackChoiceStepProps)
                 return(
                     <button className="bg-slate-500 rounded-md  flex flex-1 flex-col w-24 py-2 gap-2 align-center justify-center items-center border-2 border-transparent hover:border-green-600 focus:outline-none focus:border-green-600"
                         onClick={() => onFeedbackChoosen(key as FeedbackType)}
+                        key={key}
                     >
                         <img src={value.image.url} alt={value.image.alt} />
                         <span>{value.title}</span>

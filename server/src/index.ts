@@ -1,8 +1,10 @@
 import express, {Express} from "express";
 import { prisma } from "./prisma"
+import cors from 'cors'
 
 const app: Express = express();
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (req, res)=> 
     res.send("Olá mundo!")

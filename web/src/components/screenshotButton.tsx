@@ -5,6 +5,7 @@ import { Spinner } from "./Spinner";
 
 
 interface ScreenShotButtonProps{
+    
     screenshot: string | null;
     onScrenshotTook: (screenshot: string | null) => void;
 }
@@ -29,6 +30,7 @@ export function ScreenShotButton({screenshot, onScrenshotTook}:ScreenShotButtonP
     if (screenshot) {
         return (
             <button
+                type="button"
                 className="flex justify-end place-items-end rounded-md p-1 w-12 h-12 border-transparent focus:outline-none ring-2 focus:ring-green-600 focus:ring-offset-slate-600 focus:ring-offset-2"
                 onClick={() => handleTakingScreenshot()}
                 style={{
@@ -43,6 +45,7 @@ export function ScreenShotButton({screenshot, onScrenshotTook}:ScreenShotButtonP
     
     return (
         <button 
+        type="button"
         onClick={() => handleTakingScreenshot()}
         className="flex justify-center items-center rounded-md p-2 w-12 h-12 border-transparent focus:outline-none ring-2 focus:ring-green-600 focus:ring-offset-slate-600 focus:ring-offset-2">
         {isTakingScreenshot ? <Spinner/> : <Camera/> }
