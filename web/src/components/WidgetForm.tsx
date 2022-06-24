@@ -54,7 +54,9 @@ export function WidgetForm(){
                             onFeedbackSent={()=> onFeedbackSent(true)}
                             
                             />
-                        : <FeedbackSuccessStep/>
+                        : <FeedbackSuccessStep
+                            resetFeedbackChoice={()=> setFeedbackChoice(null)}
+                        />
                  
                 } 
                 </>

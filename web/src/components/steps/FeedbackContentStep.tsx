@@ -22,14 +22,21 @@ export function FeedbackContentStep({ feedbackChoice, resetFeedbackChoice, onFee
 
         setIsSendingFeedback(true)
 
-        axios.post('http://localhost:8080/post/feedback',{
-            type: feedbackChoice,
-            comment,
-            screenshot
-        }).then(()=> {
+        setTimeout(()=> {
             setIsSendingFeedback(false)
             onFeedbackSent()
-        }).catch((e) => console.log(e))
+            setIsSendingFeedback(true)
+        }, 2000);
+
+        // Uncoment the code below whe the server is up and runign
+        // axios.post('http://localhost:8080/post/feedback',{
+        //     type: feedbackChoice,
+        //     comment,
+        //     screenshot
+        // }).then(()=> {
+        //     setIsSendingFeedback(false)
+        //     onFeedbackSent()
+        // }).catch((e) => console.log(e))
         
     }
 
@@ -47,7 +54,7 @@ export function FeedbackContentStep({ feedbackChoice, resetFeedbackChoice, onFee
                 <textarea
                     onChange={(e)=> setComment(e.target.value)} 
                     placeholder="Digite aqui seu comentário."
-                    className="bg-transparent  min-w-[304] w-full min-h-[112px] rounded-md focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 scrollbar-track-transparent scrollbar-thin scrollbar-thumb-slate-500"
+                    className="bg-transparent w-full min-h-[104px] rounded-md focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 scrollbar-track-transparent scrollbar-thin scrollbar-thumb-slate-500"
                 />
                 <footer className="flex justify-center gap-2">
                     <ScreenShotButton
@@ -56,10 +63,10 @@ export function FeedbackContentStep({ feedbackChoice, resetFeedbackChoice, onFee
                         onScrenshotTook={setScreenshot}
                     />
                     <button
-                    type="submit"
-                    onClick={handleSubmitFeedback}
-                    disabled={isSendingFeedback}
-                    className="rounded-md p-2 w-full flex items-center justify-center bg-green-600 border-transparent focus:outline-none ring-2 focus:ring-green-600 focus:ring-offset-slate-600 focus:ring-offset-2 disabled:opacity-60">
+                        type="submit"
+                        onClick={handleSubmitFeedback}
+                        disabled={isSendingFeedback || (comment == "" && screenshot == null)}
+                        className="rounded-md p-2 w-full flex items-center justify-center bg-green-600 border-transparent focus:outline-none ring-2 focus:ring-green-600 focus:ring-offset-slate-600 focus:ring-offset-2 disabled:opacity-60">
                         {isSendingFeedback ? <Spinner/> : <span>Enviar feedback</span>}
                     </button>
                 </footer>  
